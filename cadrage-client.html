@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadrage projet client</title>
+<style>
+:root {
+  --accent:        #2563eb;
+  --accent-light:  #eff6ff;
+  --accent-dark:   #1d4ed8;
+  --border:        #e2e8f0;
+  --bg:            #f8fafc;
+  --surface:       #ffffff;
+  --text:          #1e293b;
+  --muted:         #64748b;
+  --radius:        8px;
+  --shadow:        0 1px 3px rgba(0,0,0,.08);
+  --c-must:        #dc2626;
+  --c-should:      #d97706;
+  --c-could:       #2563eb;
+  --c-wont:        #6b7280;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* ── Header ── */
+.app-header {
+  background: var(--accent);
+  color: #fff;
+  padding: 1.25rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.app-header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -.01em; }
+.app-header p  { font-size: .8rem; opacity: .75; margin-top: .15rem; }
+
+/* ── Toolbar ── */
+.toolbar { display: flex; gap: .5rem; flex-wrap: wrap; }
+
+/* ── Main ── */
+main {
+  max-width: 900px;
+  margin: 2rem auto 3rem;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Part labels & divider ── */
+.part-label {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: .35rem .9rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: -.25rem;
+}
+.part-divider {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: .25rem 0;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.card h2 {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: .3rem;
+}
+.section-help {
+  font-size: .8rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+/* ── Field grids ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid-1 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+
+.field { display: flex; flex-direction: column; gap: .3rem; }
+.field label { font-size: .78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+input[type="text"],
+input[type="date"],
+textarea,
+select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .5rem .75rem;
+  font-size: .88rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--surface);
+  transition: border-color .15s, box-shadow .15s;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+}
+textarea { resize: vertical; min-height: 72px; }
+
+/* ── MoSCoW legend ── */
+.moscow-legend {
+  font-size: .78rem;
+  color: var(--muted);
+  margin-bottom: .75rem;
+  line-height: 1.8;
+}
+.legend-must   { color: var(--c-must);   font-weight: 700; }
+.legend-should { color: var(--c-should); font-weight: 700; }
+.legend-could  { color: var(--c-could);  font-weight: 700; }
+.legend-wont   { color: var(--c-wont);   font-weight: 700; }
+
+/* ── Tables ── */
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+th {
+  text-align: left;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  border-bottom: 2px solid var(--border);
+  padding: .5rem .5rem;
+}
+td {
+  border-bottom: 1px solid var(--border);
+  padding: .4rem .5rem;
+  vertical-align: middle;
+}
+td input[type="text"],
+td input[type="date"],
+td select { padding: .35rem .5rem; font-size: .85rem; }
+.td-center { text-align: center; }
+.td-center input[type="checkbox"] { width: auto; cursor: pointer; transform: scale(1.25); accent-color: var(--accent); }
+
+/* MoSCoW priority select coloring via data attribute */
+select[data-priority="Must"]   { border-left: 3px solid var(--c-must);   color: var(--c-must);   font-weight: 600; }
+select[data-priority="Should"] { border-left: 3px solid var(--c-should); color: var(--c-should); font-weight: 600; }
+select[data-priority="Could"]  { border-left: 3px solid var(--c-could);  color: var(--c-could);  font-weight: 600; }
+select[data-priority="Won't"]  { border-left: 3px solid var(--c-wont);   color: var(--c-wont); }
+
+/* ── Validation mode ── */
+.validation-mode { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: .35rem; }
+.mode-option { display: flex; align-items: center; gap: .4rem; font-size: .9rem; cursor: pointer; }
+.mode-option input { width: auto; cursor: pointer; accent-color: var(--accent); }
+
+/* ── Amendment note ── */
+.amendment-note {
+  margin-top: 1rem;
+  font-size: .82rem;
+  color: var(--muted);
+  font-style: italic;
+  border-left: 3px solid var(--border);
+  padding-left: .75rem;
+}
+
+/* ── Internal notes card ── */
+.card-internal {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.card-internal h2 { font-size: .95rem; font-weight: 700; color: #92400e; margin-bottom: .3rem; }
+.card-internal .section-help { color: #a16207; }
+.internal-badge {
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  padding: .1rem .45rem;
+  border-radius: 4px;
+  margin-left: .4rem;
+  vertical-align: middle;
+}
+
+/* ── Buttons ── */
+button { cursor: pointer; border: none; border-radius: 6px; font-family: inherit; font-weight: 500; transition: background .15s, box-shadow .15s; }
+
+.btn-primary   { background: var(--accent); color: #fff; padding: .55rem 1.1rem; font-size: .85rem; }
+.btn-primary:hover { background: var(--accent-dark); }
+
+.btn-secondary { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.3); padding: .55rem 1.1rem; font-size: .85rem; }
+.btn-secondary:hover { background: rgba(255,255,255,.25); }
+
+.btn-danger    { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: .55rem 1.1rem; font-size: .85rem; }
+.btn-danger:hover { background: #fee2e2; }
+
+.btn-add {
+  display: block;
+  width: 100%;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px dashed var(--accent);
+  padding: .45rem 1rem;
+  font-size: .82rem;
+  margin-top: .75rem;
+  border-radius: 6px;
+}
+.btn-add:hover { background: #dbeafe; }
+
+.btn-del {
+  background: #fef2f2;
+  color: #dc2626;
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  font-size: 1rem;
+  line-height: 1;
+  border: 1px solid #fecaca;
+}
+.btn-del:hover { background: #fee2e2; }
+
+/* ── Footer ── */
+.app-footer {
+  text-align: center;
+  font-size: .75rem;
+  color: var(--muted);
+  padding: 1.5rem;
+}
+
+/* ── Print ── */
+@media print {
+  .app-header .toolbar,
+  .btn-add,
+  .btn-del,
+  .part-divider,
+  .app-footer { display: none !important; }
+
+  .app-header { position: static; background: #fff; color: #000; box-shadow: none; border-bottom: 2px solid #000; padding: .75rem 1rem; }
+  .app-header h1 { font-size: 1.1rem; color: #000; }
+  .app-header p  { color: #555; }
+
+  body  { background: #fff; font-size: 11pt; }
+  main  { max-width: 100%; padding: 0; margin: 1cm 0; gap: .6cm; }
+
+  .card, .card-internal {
+    break-inside: avoid;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    padding: .75rem 1rem;
+  }
+
+  table { font-size: 10pt; }
+
+  input[type="text"],
+  input[type="date"],
+  textarea,
+  select {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+    padding: .1rem 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .moscow-legend { display: none; }
+}
+
+@media (max-width: 640px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .app-header { padding: 1rem; flex-direction: column; align-items: flex-start; }
+  main { padding: 0 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div>
+    <h1>Cadrage projet client</h1>
+    <p>Formulaire de recueil et cadrage — à valider avec le client avant développement</p>
+  </div>
+  <div class="toolbar">
+    <button id="btn_export_client" class="btn-secondary">⬇ Export client</button>
+    <button id="btn_export_full"   class="btn-primary">⬇ Export complet</button>
+    <button id="btn_reset"         class="btn-danger">↺ Réinitialiser</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ─── PARTIE 1 ─── -->
+  <div class="part-label">Partie 1 — Recueil du besoin</div>
+
+  <!-- §1 Contexte client -->
+  <section class="card">
+    <h2>1. Contexte client</h2>
+    <div class="grid-2">
+      <div class="field">
+        <label for="client_name">Client (nom ou structure)</label>
+        <input type="text" id="client_name" placeholder="Ex : Gîte Les Lavandes — Marie Dupont">
+      </div>
+      <div class="field">
+        <label for="contact_name">Interlocuteur principal</label>
+        <input type="text" id="contact_name" placeholder="Ex : Marie Dupont, propriétaire">
+      </div>
+      <div class="field">
+        <label for="activity_sector">Activité / secteur</label>
+        <input type="text" id="activity_sector" placeholder="Ex : Location saisonnière, gîte rural">
+      </div>
+      <div class="field">
+        <label for="recueil_date">Date du recueil</label>
+        <input type="date" id="recueil_date">
+      </div>
+    </div>
+  </section>
+
+  <!-- §2 Situation actuelle -->
+  <section class="card">
+    <h2>2. Situation actuelle</h2>
+    <p class="section-help">Comprendre l'existant révèle le vrai besoin.</p>
+    <div class="grid-2">
+      <div class="field">
+        <label for="current_management">Comment gère-t-il aujourd'hui ?</label>
+        <textarea id="current_management" placeholder="Ex : Réservations par téléphone, SMS, cahier papier"></textarea>
+      </div>
+      <div class="field">
+        <label for="existing_tools">Quels outils déjà ?</label>
+        <textarea id="existing_tools" placeholder="Ex : Agenda Google, Excel, rien"></textarea>
+      </div>
+      <div class="field">
+        <label for="volume">Volume estimé</label>
+        <input type="text" id="volume" placeholder="Ex : 30 réservations par mois en haute saison">
+      </div>
+      <div class="field">
+        <label for="online_presence">Présence en ligne existante ?</label>
+        <input type="text" id="online_presence" placeholder="Ex : Page Facebook mais pas de site">
+      </div>
+    </div>
+  </section>
+
+  <!-- §3 Problèmes & objectifs -->
+  <section class="card">
+    <h2>3. Problèmes &amp; objectifs</h2>
+    <p class="section-help">La demande cache un besoin — on cible le besoin.</p>
+    <div class="grid-2">
+      <div class="field">
+        <label for="frustrations">Qu'est-ce qui frustre ?</label>
+        <textarea id="frustrations" placeholder="Ex : Appels le week-end, doubles réservations, relances manuelles"></textarea>
+      </div>
+      <div class="field">
+        <label for="status_quo">Que se passe-t-il si rien ne change ?</label>
+        <textarea id="status_quo" placeholder="Ex : Perte de temps, erreurs de planning, image peu professionnelle"></textarea>
+      </div>
+      <div class="field">
+        <label for="success">À quoi ressemble le succès ?</label>
+        <textarea id="success" placeholder="Ex : Je ne gère plus aucun appel, je remplis 80 % des week-ends"></textarea>
+      </div>
+      <div class="field">
+        <label for="priority_1">Priorité n°1</label>
+        <textarea id="priority_1" placeholder="Ex : Automatiser les réservations en ligne avec paiement d'acompte"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- §4 Utilisateurs & parcours -->
+  <section class="card">
+    <h2>4. Utilisateurs &amp; parcours</h2>
+    <p class="section-help">Structure le futur découpage fonctionnel.</p>
+    <div class="grid-2">
+      <div class="field">
+        <label for="users">Qui sont les utilisateurs ?</label>
+        <input type="text" id="users" placeholder="Ex : Visiteurs (info), clients (réservation), propriétaire (gestion)">
+      </div>
+      <div class="field">
+        <label for="special_cases">Cas particuliers ?</label>
+        <textarea id="special_cases" placeholder="Ex : Acompte 30 %, annulation 48h, caution 500 €, remise séjour long"></textarea>
+      </div>
+    </div>
+    <div class="field" style="margin-top:1rem">
+      <label for="booking_flow">Déroulement d'une réservation réussie (étape par étape)</label>
+      <textarea id="booking_flow" style="min-height:96px"
+        placeholder="Ex : 1. Client visite le site → 2. Vérifie les disponibilités → 3. Remplit le formulaire → 4. Paie l'acompte → 5. Reçoit la confirmation par e-mail → 6. Propriétaire notifié"></textarea>
+    </div>
+  </section>
+
+  <!-- ─── PARTIE 2 ─── -->
+  <hr class="part-divider">
+  <div class="part-label">Partie 2 — Cadrage du périmètre</div>
+
+  <!-- §5 MoSCoW -->
+  <section class="card">
+    <h2>5. Périmètre fonctionnel (MoSCoW)</h2>
+    <p class="section-help">Transforme une liste de souhaits en périmètre tenable — le Won't protège autant que le Must.</p>
+    <div class="moscow-legend">
+      <span class="legend-must">Must</span> = sans ça le projet n'a pas de sens ·
+      <span class="legend-should">Should</span> = important mais contournable ·
+      <span class="legend-could">Could</span> = bonus si le temps le permet ·
+      <span class="legend-wont">Won't</span> = explicitement hors périmètre (phase 2)
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Fonctionnalité</th>
+            <th style="width:150px">Priorité</th>
+            <th style="width:36px"></th>
+          </tr>
+        </thead>
+        <tbody id="moscow_tbody"></tbody>
+      </table>
+    </div>
+    <button id="btn_add_moscow" class="btn-add">+ Ajouter une fonctionnalité</button>
+  </section>
+
+  <!-- §6 Contraintes -->
+  <section class="card">
+    <h2>6. Contraintes &amp; exigences non-fonctionnelles</h2>
+    <p class="section-help">Choix techniques structurants et obligations légales.</p>
+    <div class="grid-2">
+      <div class="field">
+        <label for="budget">Budget</label>
+        <input type="text" id="budget" placeholder="Ex : &lt; 30 €/mois tout compris">
+      </div>
+      <div class="field">
+        <label for="deadline_constraint">Délais</label>
+        <input type="text" id="deadline_constraint" placeholder="Ex : Mise en ligne avant le 1er juillet">
+      </div>
+      <div class="field">
+        <label for="payment">Paiement</label>
+        <input type="text" id="payment" placeholder="Ex : Stripe, acompte 30 %">
+      </div>
+      <div class="field">
+        <label for="volume_perf">Volumétrie / performance</label>
+        <input type="text" id="volume_perf" placeholder="Ex : Pic juillet-août, ~500 visites/mois">
+      </div>
+      <div class="field">
+        <label for="legal_rgpd">Légal / RGPD</label>
+        <textarea id="legal_rgpd" placeholder="Ex : CGV à rédiger, politique cookies, mentions légales obligatoires"></textarea>
+      </div>
+      <div class="field">
+        <label for="maintenance">Maintenance</label>
+        <textarea id="maintenance" placeholder="Ex : Formation 2h, documentation, 3 mois de support inclus"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- §7 Jalons -->
+  <section class="card">
+    <h2>7. Livrables &amp; jalons</h2>
+    <p class="section-help">Étapes livrables testables — jalonnent ce qui est démontrable en soutenance.</p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Jalon</th>
+            <th>Contenu livré</th>
+            <th style="width:135px">Échéance</th>
+            <th style="width:58px" class="td-center">Validé</th>
+            <th style="width:36px"></th>
+          </tr>
+        </thead>
+        <tbody id="jalons_tbody"></tbody>
+      </table>
+    </div>
+    <button id="btn_add_jalon" class="btn-add">+ Ajouter un jalon</button>
+  </section>
+
+  <!-- §8 Validation -->
+  <section class="card">
+    <h2>8. Validation</h2>
+    <p class="section-help">Un accord écrit couvre les deux parties.</p>
+    <div class="grid-2">
+      <div class="field">
+        <label for="validated_date">Périmètre validé le</label>
+        <input type="date" id="validated_date">
+      </div>
+      <div class="field">
+        <label>Mode de validation</label>
+        <div class="validation-mode">
+          <label class="mode-option">
+            <input type="checkbox" id="validation_mode_signature"> Signature
+          </label>
+          <label class="mode-option">
+            <input type="checkbox" id="validation_mode_mail"> Mail de confirmation
+          </label>
+        </div>
+      </div>
+    </div>
+    <p class="amendment-note">Toute demande hors périmètre fera l'objet d'un avenant ou sera traitée en phase ultérieure.</p>
+  </section>
+
+  <!-- Notes internes -->
+  <section class="card-internal">
+    <h2>Notes de décision <span class="internal-badge">Interne · Soutenance</span></h2>
+    <p class="section-help">Exclu de l'export client — choix techniques, justifications, argumentaire soutenance CDA.</p>
+    <div class="field">
+      <textarea id="internal_notes" style="min-height:130px"
+        placeholder="Ex : WordPress + WooCommerce pour réduire le coût de maintenance. Stripe retenu (API REST, webhooks). Architecture headless écartée — compétences client insuffisantes. Points soutenance : gestion des conflits de disponibilité, sécurité paiement, RGPD…"></textarea>
+    </div>
+  </section>
+
+</main>
+
+<footer class="app-footer">
+  Outil de cadrage projet client · Données sauvegardées localement · Zéro serveur, zéro tracking
+</footer>
+
+<script>
+'use strict';
+
+// ── Constants ──────────────────────────────────────────────────────────────
+
+const STORAGE_KEY = 'cadrage_client_v1';
+
+const SIMPLE_FIELDS = [
+  'client_name', 'contact_name', 'activity_sector',
+  'current_management', 'existing_tools', 'volume', 'online_presence',
+  'frustrations', 'status_quo', 'success', 'priority_1',
+  'users', 'booking_flow', 'special_cases',
+  'budget', 'deadline_constraint', 'payment', 'legal_rgpd', 'maintenance', 'volume_perf',
+  'internal_notes'
+];
+
+const DATE_FIELDS = ['recueil_date', 'validated_date'];
+
+const CHECKBOX_FIELDS = ['validation_mode_signature', 'validation_mode_mail'];
+
+const MOSCOW_OPTIONS = ['Must', 'Should', 'Could', "Won't"];
+
+const DEFAULT_JALONS = [
+  { name: 'Cadrage',           content: 'Ce document validé',                     deadline: '', validated: false },
+  { name: 'Maquettes / Specs', content: 'Wireframes et cahier des charges',        deadline: '', validated: false },
+  { name: 'MVP',               content: 'Fonctionnalités Must livrées',            deadline: '', validated: false },
+  { name: 'Version livrable',  content: 'Must + Should livrés',                   deadline: '', validated: false },
+  { name: 'Phase 2',           content: 'Could / Won\'t reportés',                deadline: '', validated: false },
+];
+
+let _saveTimer = null;
+
+// ── Autosave ───────────────────────────────────────────────────────────────
+
+function scheduleSave() {
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(persistState, 300);
+}
+
+function persistState() {
+  const data = {};
+  SIMPLE_FIELDS.forEach(id  => { data[id] = field(id).value; });
+  DATE_FIELDS.forEach(id    => { data[id] = field(id).value; });
+  CHECKBOX_FIELDS.forEach(id => { data[id] = field(id).checked; });
+  data.moscow = readMoscowRows();
+  data.jalons = readJalonRows();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function restoreState() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) { initDefaultJalons(); return; }
+
+  let data;
+  try { data = JSON.parse(raw); } catch { initDefaultJalons(); return; }
+
+  SIMPLE_FIELDS.forEach(id  => { if (data[id] != null) field(id).value = data[id]; });
+  DATE_FIELDS.forEach(id    => { if (data[id] != null) field(id).value = data[id]; });
+  CHECKBOX_FIELDS.forEach(id => { if (data[id] != null) field(id).checked = data[id]; });
+
+  (data.moscow || []).forEach(r => appendMoscowRow(r.feature, r.priority));
+
+  const jalons = (data.jalons && data.jalons.length) ? data.jalons : DEFAULT_JALONS;
+  jalons.forEach(j => appendJalonRow(j.name, j.content, j.deadline, j.validated));
+}
+
+// ── Reset ──────────────────────────────────────────────────────────────────
+
+function resetForm() {
+  if (!confirm('Réinitialiser le formulaire ? Toutes les données saisies seront perdues.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  SIMPLE_FIELDS.forEach(id  => { field(id).value   = ''; });
+  DATE_FIELDS.forEach(id    => { field(id).value   = ''; });
+  CHECKBOX_FIELDS.forEach(id => { field(id).checked = false; });
+  field('moscow_tbody').innerHTML = '';
+  field('jalons_tbody').innerHTML = '';
+  initDefaultJalons();
+}
+
+// ── MoSCoW table ──────────────────────────────────────────────────────────
+
+function appendMoscowRow(featureVal = '', priorityVal = 'Must') {
+  const tr = document.createElement('tr');
+
+  // Feature input
+  const tdFeature = makeTd();
+  const inp = makeInput('text', featureVal, 'Ex : Consulter le bien et les disponibilités');
+  inp.classList.add('moscow-feature');
+  inp.addEventListener('input', scheduleSave);
+  tdFeature.appendChild(inp);
+
+  // Priority select
+  const tdPriority = makeTd();
+  const sel = makeSelect(MOSCOW_OPTIONS, priorityVal);
+  applyPriorityStyle(sel);
+  sel.addEventListener('change', () => { applyPriorityStyle(sel); scheduleSave(); });
+  tdPriority.appendChild(sel);
+
+  // Delete button
+  const tdDel = makeTd();
+  tdDel.appendChild(makeDeleteBtn(() => { tr.remove(); scheduleSave(); }));
+
+  tr.append(tdFeature, tdPriority, tdDel);
+  field('moscow_tbody').appendChild(tr);
+}
+
+function readMoscowRows() {
+  return Array.from(field('moscow_tbody').querySelectorAll('tr')).map(tr => ({
+    feature:  tr.querySelector('.moscow-feature').value,
+    priority: tr.querySelector('select').value,
+  }));
+}
+
+function applyPriorityStyle(sel) {
+  sel.dataset.priority = sel.value;
+}
+
+// ── Jalons table ───────────────────────────────────────────────────────────
+
+function appendJalonRow(nameVal = '', contentVal = '', deadlineVal = '', validatedVal = false) {
+  const tr = document.createElement('tr');
+
+  const tdName = makeTd();
+  const inpName = makeInput('text', nameVal, 'Jalon');
+  inpName.classList.add('jalon-name');
+  inpName.addEventListener('input', scheduleSave);
+  tdName.appendChild(inpName);
+
+  const tdContent = makeTd();
+  const inpContent = makeInput('text', contentVal, 'Contenu livré');
+  inpContent.classList.add('jalon-content');
+  inpContent.addEventListener('input', scheduleSave);
+  tdContent.appendChild(inpContent);
+
+  const tdDeadline = makeTd();
+  const inpDate = makeInput('date', deadlineVal, '');
+  inpDate.classList.add('jalon-deadline');
+  inpDate.addEventListener('change', scheduleSave);
+  tdDeadline.appendChild(inpDate);
+
+  const tdCheck = makeTd('td-center');
+  const chk = document.createElement('input');
+  chk.type = 'checkbox';
+  chk.checked = validatedVal;
+  chk.addEventListener('change', scheduleSave);
+  tdCheck.appendChild(chk);
+
+  const tdDel = makeTd();
+  tdDel.appendChild(makeDeleteBtn(() => { tr.remove(); scheduleSave(); }));
+
+  tr.append(tdName, tdContent, tdDeadline, tdCheck, tdDel);
+  field('jalons_tbody').appendChild(tr);
+}
+
+function readJalonRows() {
+  return Array.from(field('jalons_tbody').querySelectorAll('tr')).map(tr => ({
+    name:      tr.querySelector('.jalon-name').value,
+    content:   tr.querySelector('.jalon-content').value,
+    deadline:  tr.querySelector('.jalon-deadline').value,
+    validated: tr.querySelector('input[type="checkbox"]').checked,
+  }));
+}
+
+function initDefaultJalons() {
+  DEFAULT_JALONS.forEach(j => appendJalonRow(j.name, j.content, j.deadline, j.validated));
+}
+
+// ── Markdown export ────────────────────────────────────────────────────────
+
+/**
+ * Builds the full cadrage document as Markdown.
+ * @param {boolean} includeInternalNotes - whether to append the internal notes section
+ */
+function buildMarkdown(includeInternalNotes) {
+  const clientName = val('client_name') || 'Client';
+  const genDate    = new Date().toLocaleDateString('fr-FR');
+  const lines = [];
+
+  const push = (...rows) => rows.forEach(r => lines.push(r));
+  const h2   = title => push('', `## ${title}`, '');
+  const kv   = (label, id) => push(`- **${label} :** ${val(id) || '—'}`);
+
+  push(`# Cadrage projet — ${clientName}`, '');
+  push(`*Document généré le ${genDate}*`, '');
+  push('---', '');
+  push('## PARTIE 1 — RECUEIL DU BESOIN');
+
+  // §1
+  h2('1. Contexte client');
+  push(
+    `- **Client :** ${val('client_name') || '—'}`,
+    `- **Interlocuteur :** ${val('contact_name') || '—'}`,
+    `- **Activité / secteur :** ${val('activity_sector') || '—'}`,
+    `- **Date du recueil :** ${fmtDate(val('recueil_date'))}`,
+  );
+
+  // §2
+  h2('2. Situation actuelle');
+  multiline('Comment gère-t-il aujourd\'hui ?', 'current_management');
+  multiline('Quels outils déjà ?',               'existing_tools');
+  multiline('Volume estimé',                     'volume');
+  multiline('Présence en ligne existante',        'online_presence');
+
+  // §3
+  h2('3. Problèmes & objectifs');
+  multiline('Ce qui frustre',                    'frustrations');
+  multiline('Si rien ne change',                 'status_quo');
+  multiline('À quoi ressemble le succès ?',      'success');
+  multiline('Priorité n°1',                      'priority_1');
+
+  // §4
+  h2('4. Utilisateurs & parcours');
+  multiline('Qui sont les utilisateurs ?',       'users');
+  multiline('Déroulement d\'une réservation réussie', 'booking_flow');
+  multiline('Cas particuliers',                  'special_cases');
+
+  push('', '---', '', '## PARTIE 2 — CADRAGE DU PÉRIMÈTRE');
+
+  // §5 MoSCoW
+  h2('5. Périmètre fonctionnel (MoSCoW)');
+  push('| Fonctionnalité | Priorité |', '|----------------|----------|');
+  const moscow = readMoscowRows();
+  if (moscow.length === 0) {
+    push('| — | — |');
+  } else {
+    moscow.forEach(r => push(`| ${r.feature || '—'} | ${r.priority} |`));
+  }
+
+  // §6
+  h2('6. Contraintes & exigences non-fonctionnelles');
+  kv('Budget',                 'budget');
+  kv('Délais',                 'deadline_constraint');
+  kv('Paiement',               'payment');
+  kv('Légal / RGPD',           'legal_rgpd');
+  kv('Maintenance',            'maintenance');
+  kv('Volumétrie / performance', 'volume_perf');
+
+  // §7 Jalons
+  h2('7. Livrables & jalons');
+  push('| Jalon | Contenu livré | Échéance | Validé |', '|-------|---------------|----------|--------|');
+  readJalonRows().forEach(j => {
+    push(`| ${j.name || '—'} | ${j.content || '—'} | ${fmtDate(j.deadline)} | ${j.validated ? '✅' : '☐'} |`);
+  });
+
+  // §8
+  h2('8. Validation');
+  push(`- **Périmètre validé le :** ${fmtDate(val('validated_date'))}`);
+  const modes = [];
+  if (field('validation_mode_signature').checked) modes.push('Signature');
+  if (field('validation_mode_mail').checked)      modes.push('Mail de confirmation');
+  push(`- **Mode :** ${modes.length ? modes.join(', ') : '—'}`);
+  push('', '> Toute demande hors périmètre fera l\'objet d\'un avenant ou sera traitée en phase ultérieure.');
+
+  if (includeInternalNotes) {
+    push('', '---', '');
+    push('## Notes de décision (interne / soutenance)', '');
+    push(val('internal_notes') || '—');
+  }
+
+  push('', '---', '', '*Document généré avec l\'outil de cadrage client.*');
+
+  return lines.join('\n');
+
+  /** Appends a labelled multiline block */
+  function multiline(label, id) {
+    push(`**${label}**`, val(id) || '—', '');
+  }
+}
+
+function downloadMarkdown(includeInternalNotes) {
+  const md       = buildMarkdown(includeInternalNotes);
+  const slug     = (val('client_name') || 'client')
+                     .toLowerCase()
+                     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                     .replace(/[^a-z0-9]+/g, '-')
+                     .replace(/^-|-$/g, '');
+  const dateStr  = new Date().toISOString().slice(0, 10);
+  const filename = `cadrage-${slug}-${dateStr}.md`;
+
+  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+
+/** Returns element by id (shorthand) */
+function field(id) { return document.getElementById(id); }
+
+/** Returns trimmed value of a text element */
+function val(id) { const el = field(id); return el ? el.value.trim() : ''; }
+
+/** Formats YYYY-MM-DD to DD/MM/YYYY, or returns '—' */
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const [y, m, d] = iso.split('-');
+  return (y && m && d) ? `${d}/${m}/${y}` : iso;
+}
+
+function makeTd(cls) {
+  const td = document.createElement('td');
+  if (cls) td.className = cls;
+  return td;
+}
+
+function makeInput(type, value, placeholder) {
+  const el = document.createElement('input');
+  el.type = type; el.value = value; el.placeholder = placeholder;
+  return el;
+}
+
+function makeSelect(options, selected) {
+  const sel = document.createElement('select');
+  options.forEach(opt => {
+    const o = document.createElement('option');
+    o.value = opt; o.textContent = opt;
+    if (opt === selected) o.selected = true;
+    sel.appendChild(o);
+  });
+  return sel;
+}
+
+function makeDeleteBtn(onClick) {
+  const btn = document.createElement('button');
+  btn.textContent = '×'; btn.className = 'btn-del'; btn.title = 'Supprimer';
+  btn.addEventListener('click', onClick);
+  return btn;
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Attach change listeners to simple fields
+  SIMPLE_FIELDS.forEach(id => {
+    field(id)?.addEventListener('input', scheduleSave);
+  });
+  DATE_FIELDS.forEach(id => {
+    field(id)?.addEventListener('change', scheduleSave);
+  });
+  CHECKBOX_FIELDS.forEach(id => {
+    field(id)?.addEventListener('change', scheduleSave);
+  });
+
+  // Dynamic table buttons
+  field('btn_add_moscow').addEventListener('click', () => { appendMoscowRow(); scheduleSave(); });
+  field('btn_add_jalon').addEventListener('click',  () => { appendJalonRow();  scheduleSave(); });
+
+  // Export & reset buttons
+  field('btn_export_client').addEventListener('click', () => downloadMarkdown(false));
+  field('btn_export_full').addEventListener('click',   () => downloadMarkdown(true));
+  field('btn_reset').addEventListener('click', resetForm);
+
+  // Restore persisted state (or seed default jalons)
+  restoreState();
+});
+</script>
+
+</body>
+</html>
