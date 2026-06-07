@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadrage de votre projet</title>
+<style>
+:root {
+  --accent:        #2563eb;
+  --accent-light:  #eff6ff;
+  --accent-dark:   #1d4ed8;
+  --border:        #e2e8f0;
+  --bg:            #f8fafc;
+  --surface:       #ffffff;
+  --text:          #1e293b;
+  --muted:         #64748b;
+  --radius:        8px;
+  --shadow:        0 1px 3px rgba(0,0,0,.08);
+  --c-must:        #dc2626;
+  --c-should:      #d97706;
+  --c-could:       #2563eb;
+  --c-wont:        #6b7280;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* ── Header ── */
+.app-header {
+  background: var(--accent);
+  color: #fff;
+  padding: 1.25rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.app-header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -.01em; }
+.app-header p  { font-size: .8rem; opacity: .75; margin-top: .15rem; }
+
+/* ── Toolbar ── */
+.toolbar { display: flex; gap: .5rem; flex-wrap: wrap; }
+
+/* ── Main ── */
+main {
+  max-width: 900px;
+  margin: 2rem auto 3rem;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Voice tip ── */
+.tip-card {
+  background: var(--accent-light);
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  font-size: .85rem;
+  color: var(--accent-dark);
+  display: flex;
+  gap: .75rem;
+  align-items: flex-start;
+}
+.tip-card .tip-icon { font-size: 1.3rem; line-height: 1; }
+.tip-card strong { font-weight: 700; }
+
+/* ── Part labels & divider ── */
+.part-label {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: .35rem .9rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: -.25rem;
+}
+.part-divider {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: .25rem 0;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.card h2 {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: .3rem;
+}
+.section-help {
+  font-size: .8rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+/* ── Field grids ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid-1 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+
+.field { display: flex; flex-direction: column; gap: .3rem; }
+.field label { font-size: .78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+input[type="text"],
+input[type="date"],
+textarea,
+select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .5rem .75rem;
+  font-size: .88rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--surface);
+  transition: border-color .15s, box-shadow .15s;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+}
+textarea { resize: vertical; min-height: 72px; }
+
+/* ── MoSCoW legend ── */
+.moscow-legend {
+  font-size: .78rem;
+  color: var(--muted);
+  margin-bottom: .75rem;
+  line-height: 1.8;
+}
+.legend-must   { color: var(--c-must);   font-weight: 700; }
+.legend-should { color: var(--c-should); font-weight: 700; }
+.legend-could  { color: var(--c-could);  font-weight: 700; }
+.legend-wont   { color: var(--c-wont);   font-weight: 700; }
+
+/* ── Tables ── */
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+th {
+  text-align: left;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  border-bottom: 2px solid var(--border);
+  padding: .5rem .5rem;
+}
+td {
+  border-bottom: 1px solid var(--border);
+  padding: .4rem .5rem;
+  vertical-align: middle;
+}
+td input[type="text"],
+td input[type="date"],
+td select { padding: .35rem .5rem; font-size: .85rem; }
+.td-center { text-align: center; }
+.td-center input[type="checkbox"] { width: auto; cursor: pointer; transform: scale(1.25); accent-color: var(--accent); }
+
+/* MoSCoW priority select coloring via data attribute */
+select[data-priority="Must"]   { border-left: 3px solid var(--c-must);   color: var(--c-must);   font-weight: 600; }
+select[data-priority="Should"] { border-left: 3px solid var(--c-should); color: var(--c-should); font-weight: 600; }
+select[data-priority="Could"]  { border-left: 3px solid var(--c-could);  color: var(--c-could);  font-weight: 600; }
+select[data-priority="Won't"]  { border-left: 3px solid var(--c-wont);   color: var(--c-wont); }
+
+/* ── Validation mode ── */
+.validation-mode { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: .35rem; }
+.mode-option { display: flex; align-items: center; gap: .4rem; font-size: .9rem; cursor: pointer; }
+.mode-option input { width: auto; cursor: pointer; accent-color: var(--accent); }
+
+/* ── Amendment note ── */
+.amendment-note {
+  margin-top: 1rem;
+  font-size: .82rem;
+  color: var(--muted);
+  font-style: italic;
+  border-left: 3px solid var(--border);
+  padding-left: .75rem;
+}
+
+/* ── Buttons ── */
+button { cursor: pointer; border: none; border-radius: 6px; font-family: inherit; font-weight: 500; transition: background .15s, box-shadow .15s; }
+
+.btn-primary   { background: var(--accent); color: #fff; padding: .55rem 1.1rem; font-size: .85rem; }
+.btn-primary:hover { background: var(--accent-dark); }
+
+.btn-secondary { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.3); padding: .55rem 1.1rem; font-size: .85rem; }
+.btn-secondary:hover { background: rgba(255,255,255,.25); }
+
+.btn-danger    { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: .55rem 1.1rem; font-size: .85rem; }
+.btn-danger:hover { background: #fee2e2; }
+
+.btn-add {
+  display: block;
+  width: 100%;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px dashed var(--accent);
+  padding: .45rem 1rem;
+  font-size: .82rem;
+  margin-top: .75rem;
+  border-radius: 6px;
+}
+.btn-add:hover { background: #dbeafe; }
+
+.btn-del {
+  background: #fef2f2;
+  color: #dc2626;
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  font-size: 1rem;
+  line-height: 1;
+  border: 1px solid #fecaca;
+}
+.btn-del:hover { background: #fee2e2; }
+
+/* ── Footer ── */
+.app-footer {
+  text-align: center;
+  font-size: .75rem;
+  color: var(--muted);
+  padding: 1.5rem;
+}
+
+/* ── Print ── */
+@media print {
+  .app-header .toolbar,
+  .tip-card,
+  .btn-add,
+  .btn-del,
+  .part-divider,
+  .app-footer { display: none !important; }
+
+  .app-header { position: static; background: #fff; color: #000; box-shadow: none; border-bottom: 2px solid #000; padding: .75rem 1rem; }
+  .app-header h1 { font-size: 1.1rem; color: #000; }
+  .app-header p  { color: #555; }
+
+  body  { background: #fff; font-size: 11pt; }
+  main  { max-width: 100%; padding: 0; margin: 1cm 0; gap: .6cm; }
+
+  .card {
+    break-inside: avoid;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    padding: .75rem 1rem;
+  }
+
+  table { font-size: 10pt; }
+
+  input[type="text"],
+  input[type="date"],
+  textarea,
+  select {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+    padding: .1rem 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .moscow-legend { display: none; }
+}
+
+@media (max-width: 640px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .app-header { padding: 1rem; flex-direction: column; align-items: flex-start; }
+  main { padding: 0 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div>
+    <h1>Cadrage de votre projet</h1>
+    <p>Quelques minutes pour nous aider à bien comprendre votre besoin avant notre rendez-vous</p>
+  </div>
+  <div class="toolbar">
+    <button id="btn_export" class="btn-primary">⬇ Télécharger mes réponses</button>
+    <button id="btn_reset"  class="btn-danger">↺ Recommencer</button>
+  </div>
+</header>
+
+<main>
+
+  <div class="tip-card">
+    <span class="tip-icon">🎤</span>
+    <span><strong>Astuce :</strong> pas envie de taper sur votre téléphone ? Appuyez sur le bouton micro de votre clavier (Gboard, clavier iPhone…) pour dicter vos réponses à voix haute — le texte s'écrit tout seul dans les champs.</span>
+  </div>
+
+  <!-- §1 Vous -->
+  <section class="card">
+    <h2>1. Vous</h2>
+    <div class="grid-2">
+      <div class="field">
+        <label for="client_name">Votre nom ou celui de votre structure</label>
+        <input type="text" id="client_name" placeholder="Ex : Gîte Les Lavandes — Marie Dupont">
+      </div>
+      <div class="field">
+        <label for="contact_name">Qui sera notre interlocuteur principal ?</label>
+        <input type="text" id="contact_name" placeholder="Ex : Marie Dupont, propriétaire">
+      </div>
+      <div class="field">
+        <label for="activity_sector">Votre activité / secteur</label>
+        <input type="text" id="activity_sector" placeholder="Ex : Location saisonnière, gîte rural">
+      </div>
+    </div>
+  </section>
+
+  <!-- §2 Situation actuelle -->
+  <section class="card">
+    <h2>2. Comment ça se passe aujourd'hui ?</h2>
+    <p class="section-help">Ces détails nous aident à bien cerner votre quotidien.</p>
+    <div class="grid-2">
+      <div class="field">
+        <label for="current_management">Comment gérez-vous ça aujourd'hui ?</label>
+        <textarea id="current_management" placeholder="Ex : Je gère mes réservations par téléphone, SMS, cahier papier"></textarea>
+      </div>
+      <div class="field">
+        <label for="existing_tools">Utilisez-vous déjà des outils ?</label>
+        <textarea id="existing_tools" placeholder="Ex : Agenda Google, Excel, ou rien du tout"></textarea>
+      </div>
+      <div class="field">
+        <label for="volume">Quel volume représente votre activité ?</label>
+        <input type="text" id="volume" placeholder="Ex : 30 réservations par mois en haute saison">
+      </div>
+      <div class="field">
+        <label for="online_presence">Avez-vous déjà une présence en ligne ?</label>
+        <input type="text" id="online_presence" placeholder="Ex : Une page Facebook, mais pas de site">
+      </div>
+    </div>
+  </section>
+
+  <!-- §3 Problèmes & objectifs -->
+  <section class="card">
+    <h2>3. Ce que vous attendez</h2>
+    <p class="section-help">N'hésitez pas à être franc — c'est ce qui nous permettra de viser juste.</p>
+    <div class="grid-2">
+      <div class="field">
+        <label for="frustrations">Qu'est-ce qui vous prend du temps ou vous agace aujourd'hui ?</label>
+        <textarea id="frustrations" placeholder="Ex : Les appels le week-end, les doubles réservations, les relances à faire à la main"></textarea>
+      </div>
+      <div class="field">
+        <label for="status_quo">Si rien ne change, qu'est-ce que ça donne dans 1 an ?</label>
+        <textarea id="status_quo" placeholder="Ex : Je continue à perdre du temps, je fais des erreurs de planning"></textarea>
+      </div>
+      <div class="field">
+        <label for="success">Pour vous, à quoi ressemblerait une réussite ?</label>
+        <textarea id="success" placeholder="Ex : Je ne gère plus aucun appel, mes week-ends sont remplis à 80 %"></textarea>
+      </div>
+      <div class="field">
+        <label for="priority_1">Si on ne devait faire qu'une seule chose en premier, ce serait quoi ?</label>
+        <textarea id="priority_1" placeholder="Ex : Pouvoir prendre des réservations en ligne avec acompte"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- §4 Utilisateurs & parcours -->
+  <section class="card">
+    <h2>4. Qui va utiliser ça, et comment ?</h2>
+    <div class="grid-2">
+      <div class="field">
+        <label for="users">Qui utilisera ce projet ?</label>
+        <input type="text" id="users" placeholder="Ex : Visiteurs (infos), clients (réservation), moi (gestion)">
+      </div>
+      <div class="field">
+        <label for="special_cases">Y a-t-il des cas particuliers à prévoir ?</label>
+        <textarea id="special_cases" placeholder="Ex : Acompte de 30 %, annulation possible jusqu'à 48h avant, caution de 500 €"></textarea>
+      </div>
+    </div>
+    <div class="field" style="margin-top:1rem">
+      <label for="booking_flow">Racontez-nous le déroulement idéal, étape par étape</label>
+      <textarea id="booking_flow" style="min-height:96px"
+        placeholder="Ex : 1. La personne visite le site → 2. Elle regarde les disponibilités → 3. Elle remplit le formulaire → 4. Elle paie l'acompte → 5. Elle reçoit une confirmation par e-mail → 6. Je suis prévenu(e)"></textarea>
+    </div>
+  </section>
+
+  <!-- §5 MoSCoW -->
+  <section class="card">
+    <h2>5. Ce qui est important pour vous</h2>
+    <p class="section-help">Listez les fonctionnalités auxquelles vous pensez, et indiquez à quel point chacune compte pour vous.</p>
+    <div class="moscow-legend">
+      <span class="legend-must">Indispensable</span> = sans ça, ça ne vaut pas le coup ·
+      <span class="legend-should">Important</span> = ça compte beaucoup, mais on peut s'en passer au début ·
+      <span class="legend-could">Bonus</span> = appréciable si possible ·
+      <span class="legend-wont">Pas maintenant</span> = pour plus tard
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Fonctionnalité</th>
+            <th style="width:160px">Importance</th>
+            <th style="width:36px"></th>
+          </tr>
+        </thead>
+        <tbody id="moscow_tbody"></tbody>
+      </table>
+    </div>
+    <button id="btn_add_moscow" class="btn-add">+ Ajouter une fonctionnalité</button>
+  </section>
+
+  <!-- §6 Contraintes -->
+  <section class="card">
+    <h2>6. Vos contraintes</h2>
+    <p class="section-help">Tout ce qui peut influencer nos choix : budget, délais, obligations…</p>
+    <div class="grid-2">
+      <div class="field">
+        <label for="budget">Quel budget envisagez-vous ?</label>
+        <input type="text" id="budget" placeholder="Ex : Moins de 30 €/mois tout compris">
+      </div>
+      <div class="field">
+        <label for="deadline_constraint">Avez-vous une échéance en tête ?</label>
+        <input type="text" id="deadline_constraint" placeholder="Ex : Je voudrais que ce soit en ligne avant le 1er juillet">
+      </div>
+      <div class="field">
+        <label for="payment">Comment vos clients paieront-ils ?</label>
+        <input type="text" id="payment" placeholder="Ex : Carte bancaire, acompte de 30 %">
+      </div>
+      <div class="field">
+        <label for="volume_perf">À quels pics d'activité faut-il s'attendre ?</label>
+        <input type="text" id="volume_perf" placeholder="Ex : Beaucoup de visites en juillet-août">
+      </div>
+      <div class="field">
+        <label for="legal_rgpd">Avez-vous des obligations légales connues ?</label>
+        <textarea id="legal_rgpd" placeholder="Ex : Je ne sais pas trop ce qu'il faut prévoir niveau mentions légales / données personnelles"></textarea>
+      </div>
+      <div class="field">
+        <label for="maintenance">Et après la mise en ligne ?</label>
+        <textarea id="maintenance" placeholder="Ex : J'aimerais pouvoir modifier le contenu moi-même, être accompagné(e) au début"></textarea>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="app-footer">
+  Vos réponses restent sur votre appareil — rien n'est envoyé sur un serveur · Téléchargez-les puis partagez le fichier avec nous
+</footer>
+
+<script>
+'use strict';
+
+// ── Constants ──────────────────────────────────────────────────────────────
+
+const STORAGE_KEY = 'cadrage_client_autonome_v1';
+
+const SIMPLE_FIELDS = [
+  'client_name', 'contact_name', 'activity_sector',
+  'current_management', 'existing_tools', 'volume', 'online_presence',
+  'frustrations', 'status_quo', 'success', 'priority_1',
+  'users', 'booking_flow', 'special_cases',
+  'budget', 'deadline_constraint', 'payment', 'legal_rgpd', 'maintenance', 'volume_perf'
+];
+
+const MOSCOW_OPTIONS = ['Must', 'Should', 'Could', "Won't"];
+const MOSCOW_LABELS = {
+  'Must': 'Indispensable',
+  'Should': 'Important',
+  'Could': 'Bonus',
+  "Won't": 'Pas maintenant',
+};
+
+let _saveTimer = null;
+
+// ── Autosave ───────────────────────────────────────────────────────────────
+
+function scheduleSave() {
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(persistState, 300);
+}
+
+function persistState() {
+  const data = {};
+  SIMPLE_FIELDS.forEach(id => { data[id] = field(id).value; });
+  data.moscow = readMoscowRows();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function restoreState() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+
+  let data;
+  try { data = JSON.parse(raw); } catch { return; }
+
+  SIMPLE_FIELDS.forEach(id => { if (data[id] != null) field(id).value = data[id]; });
+  (data.moscow || []).forEach(r => appendMoscowRow(r.feature, r.priority));
+}
+
+// ── Reset ──────────────────────────────────────────────────────────────────
+
+function resetForm() {
+  if (!confirm('Recommencer à zéro ? Toutes vos réponses seront effacées.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  SIMPLE_FIELDS.forEach(id => { field(id).value = ''; });
+  field('moscow_tbody').innerHTML = '';
+}
+
+// ── MoSCoW table ──────────────────────────────────────────────────────────
+
+function appendMoscowRow(featureVal = '', priorityVal = 'Must') {
+  const tr = document.createElement('tr');
+
+  // Feature input
+  const tdFeature = makeTd();
+  const inp = makeInput('text', featureVal, 'Ex : Pouvoir consulter les disponibilités en ligne');
+  inp.classList.add('moscow-feature');
+  inp.addEventListener('input', scheduleSave);
+  tdFeature.appendChild(inp);
+
+  // Priority select
+  const tdPriority = makeTd();
+  const sel = makeSelect(MOSCOW_OPTIONS, priorityVal);
+  applyPriorityStyle(sel);
+  sel.addEventListener('change', () => { applyPriorityStyle(sel); scheduleSave(); });
+  tdPriority.appendChild(sel);
+
+  // Delete button
+  const tdDel = makeTd();
+  tdDel.appendChild(makeDeleteBtn(() => { tr.remove(); scheduleSave(); }));
+
+  tr.append(tdFeature, tdPriority, tdDel);
+  field('moscow_tbody').appendChild(tr);
+}
+
+function readMoscowRows() {
+  return Array.from(field('moscow_tbody').querySelectorAll('tr')).map(tr => ({
+    feature:  tr.querySelector('.moscow-feature').value,
+    priority: tr.querySelector('select').value,
+  }));
+}
+
+function applyPriorityStyle(sel) {
+  sel.dataset.priority = sel.value;
+}
+
+// ── Markdown export ────────────────────────────────────────────────────────
+
+function buildMarkdown() {
+  const clientName = val('client_name') || 'Client';
+  const genDate    = new Date().toLocaleDateString('fr-FR');
+  const lines = [];
+
+  const push = (...rows) => rows.forEach(r => lines.push(r));
+  const h2   = title => push('', `## ${title}`, '');
+
+  push(`# Cadrage de projet — ${clientName}`, '');
+  push(`*Réponses transmises le ${genDate}*`, '');
+  push('---', '');
+
+  h2('1. Vous');
+  push(
+    `- **Nom / structure :** ${val('client_name') || '—'}`,
+    `- **Interlocuteur :** ${val('contact_name') || '—'}`,
+    `- **Activité / secteur :** ${val('activity_sector') || '—'}`,
+  );
+
+  h2('2. Comment ça se passe aujourd\'hui');
+  multiline('Comment je gère ça aujourd\'hui',      'current_management');
+  multiline('Outils déjà utilisés',                 'existing_tools');
+  multiline('Volume estimé',                        'volume');
+  multiline('Présence en ligne existante',          'online_presence');
+
+  h2('3. Ce que j\'attends');
+  multiline('Ce qui prend du temps / agace',        'frustrations');
+  multiline('Si rien ne change',                    'status_quo');
+  multiline('À quoi ressemblerait une réussite',    'success');
+  multiline('Priorité n°1',                         'priority_1');
+
+  h2('4. Utilisateurs & parcours');
+  multiline('Qui utilisera le projet',                          'users');
+  multiline('Déroulement idéal (étape par étape)',              'booking_flow');
+  multiline('Cas particuliers',                                 'special_cases');
+
+  h2('5. Ce qui est important pour moi');
+  push('| Fonctionnalité | Importance |', '|----------------|------------|');
+  const moscow = readMoscowRows();
+  if (moscow.length === 0) {
+    push('| — | — |');
+  } else {
+    moscow.forEach(r => push(`| ${r.feature || '—'} | ${MOSCOW_LABELS[r.priority] || r.priority} |`));
+  }
+
+  h2('6. Contraintes');
+  push(`- **Budget envisagé :** ${val('budget') || '—'}`);
+  push(`- **Échéance souhaitée :** ${val('deadline_constraint') || '—'}`);
+  push(`- **Paiement clients :** ${val('payment') || '—'}`);
+  push(`- **Pics d'activité :** ${val('volume_perf') || '—'}`);
+  multiline('Obligations légales connues', 'legal_rgpd');
+  multiline('Attentes après mise en ligne', 'maintenance');
+
+  push('', '---', '', '*Réponses collectées avec l\'outil de cadrage — à transmettre avant le rendez-vous.*');
+
+  return lines.join('\n');
+
+  /** Appends a labelled multiline block */
+  function multiline(label, id) {
+    push(`**${label}**`, val(id) || '—', '');
+  }
+}
+
+function downloadMarkdown() {
+  const md       = buildMarkdown();
+  const slug     = (val('client_name') || 'client')
+                     .toLowerCase()
+                     .normalize('NFD').replace(/[̀-ͯ]/g, '')
+                     .replace(/[^a-z0-9]+/g, '-')
+                     .replace(/^-|-$/g, '');
+  const dateStr  = new Date().toISOString().slice(0, 10);
+  const filename = `cadrage-${slug}-${dateStr}.md`;
+
+  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+
+/** Returns element by id (shorthand) */
+function field(id) { return document.getElementById(id); }
+
+/** Returns trimmed value of a text element */
+function val(id) { const el = field(id); return el ? el.value.trim() : ''; }
+
+function makeTd(cls) {
+  const td = document.createElement('td');
+  if (cls) td.className = cls;
+  return td;
+}
+
+function makeInput(type, value, placeholder) {
+  const el = document.createElement('input');
+  el.type = type; el.value = value; el.placeholder = placeholder;
+  return el;
+}
+
+function makeSelect(options, selected) {
+  const sel = document.createElement('select');
+  options.forEach(opt => {
+    const o = document.createElement('option');
+    o.value = opt; o.textContent = MOSCOW_LABELS[opt] || opt;
+    if (opt === selected) o.selected = true;
+    sel.appendChild(o);
+  });
+  return sel;
+}
+
+function makeDeleteBtn(onClick) {
+  const btn = document.createElement('button');
+  btn.textContent = '×'; btn.className = 'btn-del'; btn.title = 'Supprimer';
+  btn.addEventListener('click', onClick);
+  return btn;
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  SIMPLE_FIELDS.forEach(id => {
+    field(id)?.addEventListener('input', scheduleSave);
+  });
+
+  field('btn_add_moscow').addEventListener('click', () => { appendMoscowRow(); scheduleSave(); });
+
+  field('btn_export').addEventListener('click', downloadMarkdown);
+  field('btn_reset').addEventListener('click', resetForm);
+
+  restoreState();
+});
+</script>
+
+</body>
+</html>
